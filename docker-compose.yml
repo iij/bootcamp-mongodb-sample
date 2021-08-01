@@ -1,0 +1,30 @@
+version: "3.1"
+
+services:
+  mongo-primary:
+    image: mongo
+    volumes:
+      - ./data/primary:/data/db
+    command: >
+      mongod
+      --replSet mongo-set
+    ports:
+      - "27017:27017"
+  mongo-secondary:
+    image: mongo
+    volumes:
+      - ./data/secondary:/data/db
+    command: >
+      mongod
+      --port 27018
+      --replSet mongo-set
+    ports:
+      - "27018:27018"
+  mongo-arbiter:
+    image: mongo
+    command: >
+      mongod
+      --port 27019
+      --replSet mongo-set
+    ports:
+      - "27019:27019"
